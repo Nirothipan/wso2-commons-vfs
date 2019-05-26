@@ -48,13 +48,6 @@
     <url>https://issues.apache.org/jira/browse/VFS</url>
   </issueManagement>
 
-  <scm>
-    <connection>scm:git:https://github.com/wso2/wso2-commons-vfs.git</connection>
-    <developerConnection>scm:git:https://github.com/wso2/wso2-commons-vfs.git</developerConnection>
-    <url>https://github.com/wso2/wso2-commons-vfs.git</url>
-    <tag>v2.2-wso2v6</tag>
-  </scm>
-
   <developers>
     <developer>
       <name>Adam Murdoch</name>
