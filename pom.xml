@@ -169,6 +169,7 @@
     <hadoop.version>2.6.0</hadoop.version>
     <checkstyle.skip>true</checkstyle.skip>
     <findbugs.skip>true</findbugs.skip>
+    <hierynomus.smbj.version>0.10.0</hierynomus.smbj.version>
   </properties>
 
   <build>
@@ -404,6 +405,11 @@
             <artifactId>*</artifactId>
           </exclusion>
         </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>com.hierynomus</groupId>
+        <artifactId>smbj</artifactId>
+        <version>${hierynomus.smbj.version}</version>
       </dependency>
 
       <!-- Testing -->
