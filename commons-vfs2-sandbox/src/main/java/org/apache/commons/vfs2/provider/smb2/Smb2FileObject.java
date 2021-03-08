@@ -21,6 +21,7 @@ package org.apache.commons.vfs2.provider.smb2;
 import com.hierynomus.msfscc.fileinformation.FileAllInformation;
 import com.hierynomus.smbj.share.DiskEntry;
 import com.hierynomus.smbj.share.File;
+import jcifs.smb.SmbFileOutputStream;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -145,10 +146,9 @@ public class Smb2FileObject extends AbstractFileObject<Smb2FileSystem> {
     protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception {
 
         if (diskEntryWrite == null) {
-            getDiskEntryWrite();
+            getDiskEntryWrite(bAppend);
         }
-
-        return ((File) diskEntryWrite).getOutputStream();
+        return ((File) diskEntryWrite).getOutputStream(bAppend);
     }
 
     @Override
@@ -181,13 +181,13 @@ public class Smb2FileObject extends AbstractFileObject<Smb2FileSystem> {
      *
      * @throws FileSystemException handle create error
      */
-    private void getDiskEntryWrite() throws FileSystemException {
+    private void getDiskEntryWrite(boolean bAppend) throws FileSystemException {
 
         closeAllHandles();
         try {
             synchronized (getFileSystem()) {
                 Smb2FileSystem fileSystem = (Smb2FileSystem) getFileSystem();
-                diskEntryWrite = fileSystem.getDiskEntryWrite(getRelPathToShare());
+                diskEntryWrite = fileSystem.getDiskEntryWrite(getRelPathToShare(), bAppend);
             }
         } catch (Exception e) {
             throw new FileSystemException("vfs.provider.smb2/diskentry-create.error", getName(), e.getCause());
@@ -264,7 +264,7 @@ public class Smb2FileObject extends AbstractFileObject<Smb2FileSystem> {
             diskEntryFolderWrite.rename(fileObject.getRelPathToShare());
         } else {
             if (diskEntryWrite == null) {
-                getDiskEntryWrite();
+                getDiskEntryWrite(false);
             }
             diskEntryWrite.rename(fileObject.getRelPathToShare());
             closeAllHandles();

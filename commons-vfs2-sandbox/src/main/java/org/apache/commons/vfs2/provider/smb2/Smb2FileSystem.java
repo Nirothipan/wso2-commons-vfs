@@ -23,9 +23,11 @@ import com.hierynomus.smbj.share.DiskEntry;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
+import org.apache.commons.vfs2.provider.smb.SmbFileObject;
 
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicReference;
@@ -79,9 +81,9 @@ public class Smb2FileSystem extends AbstractFileSystem {
      * @param path file path
      * @return DiskEntry
      */
-    public DiskEntry getDiskEntryWrite(String path) {
+    public DiskEntry getDiskEntryWrite(String path, boolean bAppend) {
 
-        return ((Smb2ClientWrapper) client.get()).getDiskEntryWrite(path);
+        return ((Smb2ClientWrapper) client.get()).getDiskEntryWrite(path, bAppend);
     }
 
     /**

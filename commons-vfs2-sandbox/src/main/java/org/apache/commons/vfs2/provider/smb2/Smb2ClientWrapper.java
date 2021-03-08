@@ -136,14 +136,13 @@ public class Smb2ClientWrapper extends SMBClient {
      * @param path path to file
      * @return DiskEntry file
      */
-    public DiskEntry getDiskEntryWrite(String path) {
+    public DiskEntry getDiskEntryWrite(String path, boolean append) {
 
-        return diskShare.open(path,
-                EnumSet.of(AccessMask.MAXIMUM_ALLOWED),
-                EnumSet.of(FileAttributes.FILE_ATTRIBUTE_NORMAL),
-                EnumSet.of(SMB2ShareAccess.FILE_SHARE_WRITE),
-                SMB2CreateDisposition.FILE_OPEN_IF,
-                EnumSet.of(SMB2CreateOptions.FILE_NO_COMPRESSION));
+        return diskShare.open(path, EnumSet.of(AccessMask.MAXIMUM_ALLOWED),
+                              EnumSet.of(FileAttributes.FILE_ATTRIBUTE_NORMAL),
+                              EnumSet.of(SMB2ShareAccess.FILE_SHARE_WRITE),
+                              append ? SMB2CreateDisposition.FILE_OPEN_IF : SMB2CreateDisposition.FILE_OVERWRITE_IF,
+                              EnumSet.of(SMB2CreateOptions.FILE_NO_COMPRESSION));
     }
 
     /**
